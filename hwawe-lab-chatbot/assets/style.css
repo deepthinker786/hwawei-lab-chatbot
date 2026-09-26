@@ -1,0 +1,113 @@
+@import url('https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700&family=DM+Sans:wght@400;500;600&display=swap');
+
+:root{
+  --ink:#080b1f; --panel:rgba(255,255,255,.055); --line:rgba(255,255,255,.10);
+  --text:#e9ecff; --muted:#9aa3d6;
+  --violet:#8b7cff; --cyan:#3ee0ff; --coral:#ff8fb1;
+}
+
+html, body, .stApp{font-family:'DM Sans',system-ui,sans-serif; color:var(--text);}
+h1,h2,h3,.brand-name{font-family:'Sora',sans-serif; letter-spacing:-.02em;}
+
+/* ---------- Background: night-lab aurora + faint grid ---------- */
+.stApp{
+  background:
+    radial-gradient(1100px 620px at 8% -8%, rgba(139,124,255,.38), transparent 60%),
+    radial-gradient(900px 520px at 100% 4%, rgba(62,224,255,.20), transparent 58%),
+    radial-gradient(900px 640px at 55% 118%, rgba(255,143,177,.20), transparent 60%),
+    var(--ink);
+  background-attachment:fixed;
+}
+.stApp::before{
+  content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.035) 1px, transparent 1px);
+  background-size:52px 52px;
+  -webkit-mask-image:radial-gradient(ellipse at 50% 30%, #000 25%, transparent 75%);
+          mask-image:radial-gradient(ellipse at 50% 30%, #000 25%, transparent 75%);
+}
+.stApp::after{ /* one slow drifting orb: the only ambient motion */
+  content:""; position:fixed; width:520px; height:520px; left:58%; top:38%; z-index:0; pointer-events:none;
+  background:radial-gradient(circle, rgba(139,124,255,.28), transparent 65%);
+  filter:blur(50px); animation:drift 28s ease-in-out infinite alternate;
+}
+@keyframes drift{ to{ transform:translate(-38vw,-22vh) scale(1.25); } }
+@media (prefers-reduced-motion:reduce){ .stApp::after{animation:none;} }
+
+[data-testid="stAppViewContainer"], [data-testid="stSidebar"]{position:relative; z-index:1;}
+[data-testid="stHeader"]{background:transparent;}
+#MainMenu, footer{visibility:hidden;}
+.block-container{padding-top:2.2rem; max-width:820px;}
+
+/* ---------- Sidebar ---------- */
+[data-testid="stSidebar"]{
+  background:rgba(9,13,34,.72); backdrop-filter:blur(22px);
+  border-right:1px solid var(--line);
+}
+.brand{display:flex; gap:.75rem; align-items:center; margin:.2rem 0 1rem;}
+.brand-mark{
+  width:44px; height:44px; border-radius:14px; display:grid; place-items:center; font-size:1.4rem;
+  background:linear-gradient(135deg,var(--violet),var(--cyan)); box-shadow:0 6px 24px rgba(139,124,255,.45);
+}
+.brand-name{font-weight:700; font-size:1.2rem; line-height:1.1;}
+.brand-sub{color:var(--muted); font-size:.82rem;}
+.status{
+  display:inline-flex; align-items:center; gap:.5rem; padding:.3rem .8rem; border-radius:999px;
+  font-size:.82rem; border:1px solid var(--line); background:var(--panel); margin-bottom:1rem;
+}
+.status .dot{width:8px; height:8px; border-radius:50%;}
+.status.on .dot{background:#4ade80; box-shadow:0 0 10px #4ade80;}
+.status.off .dot{background:#fb7185; box-shadow:0 0 10px #fb7185;}
+
+/* ---------- Hero ---------- */
+.hero{padding:2.2rem 0 1.4rem;}
+.hero-badge{
+  display:inline-block; padding:.3rem .9rem; border-radius:999px; font-size:.85rem; color:var(--muted);
+  border:1px solid var(--line); background:var(--panel); margin-bottom:1.1rem;
+}
+.hero h1{
+  font-size:clamp(1.9rem,4.6vw,2.9rem); line-height:1.12; font-weight:700; margin:0 0 .9rem; padding:0;
+  background:linear-gradient(100deg,#fff 0%,#c9c2ff 45%,#8feaff 100%);
+  -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;
+}
+.hero p{color:var(--muted); font-size:1.05rem; max-width:52ch; line-height:1.6; margin:0 0 .6rem;}
+
+/* ---------- Buttons ---------- */
+.stButton>button, .stDownloadButton>button{
+  border-radius:14px; border:1px solid var(--line); color:var(--text);
+  background:var(--panel); backdrop-filter:blur(10px); padding:.7rem 1rem; font-weight:500;
+  transition:border-color .2s, background .2s, transform .15s;
+}
+.stButton>button:hover, .stDownloadButton>button:hover{
+  border-color:rgba(139,124,255,.7); background:rgba(139,124,255,.14); color:#fff; transform:translateY(-1px);
+}
+.stButton>button:focus-visible, .stDownloadButton>button:focus-visible{outline:2px solid var(--cyan); outline-offset:2px;}
+
+/* ---------- Chat bubbles ---------- */
+[data-testid="stChatMessage"]{
+  background:var(--panel); border:1px solid var(--line); backdrop-filter:blur(16px);
+  border-radius:20px; padding:1rem 1.15rem; margin-bottom:.8rem;
+  box-shadow:0 10px 40px rgba(0,0,0,.25);
+}
+[data-testid="stChatMessage"]:has([data-testid="stChatMessageAvatarUser"]),
+[data-testid="stChatMessage"]:has([data-testid="chatAvatarIcon-user"]){
+  background:linear-gradient(135deg,rgba(139,124,255,.22),rgba(62,224,255,.10));
+  border-color:rgba(139,124,255,.38);
+}
+[data-testid="stChatMessage"] p, [data-testid="stChatMessage"] li{line-height:1.7; font-size:1rem;}
+[data-testid="stChatMessage"] code{background:rgba(0,0,0,.35); border-radius:6px; padding:.1rem .35rem;}
+[data-testid="stChatMessage"] pre{border:1px solid var(--line); border-radius:14px; background:rgba(4,6,20,.75)!important;}
+
+/* ---------- Input ---------- */
+[data-testid="stBottom"], [data-testid="stBottom"]>div{background:transparent!important;}
+[data-testid="stChatInput"]{
+  background:rgba(14,19,48,.78); border:1px solid rgba(139,124,255,.45); border-radius:20px;
+  backdrop-filter:blur(18px); box-shadow:0 0 0 4px rgba(139,124,255,.08), 0 14px 44px rgba(0,0,0,.4);
+}
+[data-testid="stChatInput"] textarea{color:var(--text);}
+[data-testid="stChatInput"] button{background:linear-gradient(135deg,var(--violet),var(--cyan)); border-radius:12px; color:#fff;}
+
+/* ---------- Misc ---------- */
+[data-testid="stExpander"]{border:1px solid var(--line); border-radius:14px; background:var(--panel);}
+::-webkit-scrollbar{width:8px;} ::-webkit-scrollbar-thumb{background:rgba(139,124,255,.35); border-radius:8px;}

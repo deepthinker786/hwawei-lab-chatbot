@@ -1,0 +1,11 @@
+[project]
+name = "hwawe-lab-chatbot"
+version = "1.0.0"
+description = "Hwawe Lab - a private, local generative AI chatbot built with Streamlit and Ollama."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "streamlit>=1.40",
+    "ollama>=0.4",
+    "python-dotenv>=1.0",
+]
